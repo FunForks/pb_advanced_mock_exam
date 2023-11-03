@@ -76,9 +76,6 @@ const generateAverages = (object) => {
   const entries = Object.entries(object)
   // [[ "Day 1", [12, 14, 52, 37, 5]], ...]
 
-  const sum = (data) => {
-    return 
-  }
   const reducer = (accumulator, [day, data]) => {
     let { averages, total, count } = accumulator
 
