@@ -1,13 +1,13 @@
 # Advanced Test - Programming Basics
 
 ## Test Instructions
-* Work from the `index.js` file provided in this repository.
+* Work in the `index.js` file provided in this repository.
 * Follow all of the instructions below to complete the test.
 * **Important**: Make sure that the names of your variables/functions/classes match the names in the instructions below.
-* You can check whether your answers pass the unit tests provided. However, do not spend too much time trying to fix your issues to make them pass the tests - move on and try to attempt all questions.
-* Most tasks require to write a function. Make sure your function returns the expected results as a value
-* Call your functions to test them, and print the return values to the console.
-* Make sure to commit and push your test.
+* You can check whether your answers pass the unit tests provided by running `npm i` (once at the beginning), then `npm test` after you have written your answers. However, do not spend too much time trying to fix your issues to make them pass the tests - keep moving on and try to attempt all questions. Deal with any issues that the tests identify once you have a prototype answer for each of the questions.
+* Most tasks require you to write a function. Make sure your function returns the expected results as a value. Pay attention to spaces, commas and other fine details when the output includes a string.
+* Call your functions to test them, and print the return values in the console.
+* Make sure to commit and push your test to your GitHub repository. This will make it easy to mark your test and give you useful feedback on your work.
 
 ---
 ## Data Structure
@@ -100,10 +100,11 @@ Dmitri is planning to create his own version of [Conway's Game of Life](https://
     [ "r3c1" "r3c2", "r3c3" "r3c4" ]
   ]
 ```
-**Note**: the array above has been arranged neatly in rows, so that it is easy for you to read. Your array does not need to be formatted like this.
+**Note**: The array above has been arranged neatly in rows, so that it is easy for you to read. Your array does not need to be formatted like this.
 * The output array should contain as many sub-arrays as are defined by the value for `row`
 * Each sub-array should contain the number of items that is defined by the value for `column`
 * Each entry in each sub-array should be of the format `"rXcY"` where `X` represents the row number and `Y` represents the column number. For example, the first entry in the first sub-array should be `"r1c1"`
+* The numbering for X and Y values starts at 1.
 
 ---
 #### B-4. Statistics Tool
@@ -119,7 +120,9 @@ For example: here are the readings for the first three days:
 
 **Note that this is the average of *all* readings, not the average of the daily averages.**
 
-Kinjal has arranged her data into an object in [JSON format](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON). After the first three days, her data looks like this:
+Kinjal has arranged her data into an object in [JSON format](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON). JSON format requires that all string property names be wrapped in double quote marks.
+
+After the first three days, her data looks like this:
 
 ```javascript
 const experimental_data = {
@@ -136,7 +139,7 @@ She has asked you to create a new object which will have the format:
   "Day 1":   24,
   "Day 2":   28,
   "Day 3":   23.25,
-  Overall: 25.4
+  "Overall": 25.4
 }
 ```
 
@@ -145,6 +148,7 @@ She has asked you to create a new object which will have the format:
 * The number of key-value pairs will be greater than 3
 * Use array methods to calculate the averages and return an object with a format similar to the `averages` shown above
 * The output object should include the overall average
+* All property names should be strings.
 * **Important**: Do **not** use a loop to complete this task.
 
 ### C - Classes
@@ -163,7 +167,10 @@ To calculate the value of the present:
 * If the person has a partner, add €7
 * For each child, add €5
 
-José (€25) has a partner (+ €7) and two children (+ 2 * €5 = €10), so his present can be worth up to €42.
+The larger the family, the more expensive the present can be.
+
+In this case in point, José (€25) has a partner (+ €7) and two children (+ 2 * €5 = €10), so his present can be worth up to €42.
+As another example: Bruce Willis has a partner called Emma and 5 children. He would receive €57.
 
 ***Instructions***
 * Create a class called `StaffMember` to represent a staff member
@@ -196,24 +203,26 @@ Credit: [Original exercise](https://edabit.com/challenge/xPBFGvKQfRFEyy4vx) crea
 
 For this exercise, keep in mind the following definitions:
 
-A *term* is either an initials or word.  
-*initials* = 1 character  
+A *term* is either an initial or aword.  
+*initial* = 1 character  
 *words* = 2+ characters (no dots allowed)  
 A *valid name* is a name written in one of the following ways:
 
 * H. Wells
 * H. G. Wells
+* Herbert Wells
 * Herbert G. Wells
 * Herbert George Wells
   
 The following names are *invalid*:
 
-- `Herbert` or `Wells` (single names not allowed)
+- `Herbert` or `Wells` (single word names are not allowed)
 - `H Wells` or `H. G Wells` (initials must end with dot)
 - `h. Wells` or `H. wells` or `h. g. Wells` or  `H. G. WELLS` (incorrect capitalization)
-- `H. George Wells` (middle name expanded, while first still left as initial)
+- `H. George Wells` (middle name expanded, while first is still left as initial)
 - `H. G. W`. (last name is not a word)
 - `Herb. G. Wells` (dot only allowed after initial, not word)
+- `Hérbërt Gêørge Wèlls` (non-ASCII characters not allowed)
  
 **Rules**
 1. The first letter of both initials and words must be capitalized.
@@ -221,8 +230,10 @@ The following names are *invalid*:
 3. Initials must end with a dot.
 4. Dots must be followed by a space.
 5. A name must be either 2 or 3 terms long.
-6. If the name is 3 words long, the first and middle name can be expanded, or only the first name only may be expanded. You cannot keep the first name as an initial and expand the middle name only.
-7. The last name must be a word (not an initial).
+6. If the name is 3 words long, the first and middle name can be expanded, or only the first name may be expanded. You cannot keep the first name as an initial and expand the middle name only.
+7. A word can be as short as two letters.
+8. The last name must be a word (not an initial).
+9. Only the standard ASCII alphabet (`abcdefghijklmnopqrstuvwxyz`), dots and spaces are allowed.
 
 ***Instructions***
 
@@ -233,6 +244,8 @@ Your task is to write a function called `validateName` that determines whether a
 `validName("H. Wells")` ➞ true
 
 `validName("H. G. Wells")` ➞ true
+
+`validName("Herbert Wells")` ➞ true
 
 `validName("Herbert G. Wells")` ➞ true
 
@@ -261,12 +274,12 @@ Your task is to write a function called `validateName` that determines whether a
 
 * The `test.js` file and `package.json` file have been provided for you.
 
-* Firstly, run the following command in the appropriate folder to install and save jest as a dependency.
+* First, run the following command in the appropriate folder to install the Node modules used by Jest:
     ```
-    npm install --save-dev jest
+    npm install
     ```
 * Run the following command in order to run the test. The script has already been added to the `package.json` file.
     ```
-    npm run test
+    npm test
     ```
 * For more information, you can refer to Jest's [documentation](https://jestjs.io/docs/en/getting-started). If interested read this in detail **after taking the test**.
