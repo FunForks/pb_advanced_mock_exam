@@ -180,17 +180,20 @@ describe('validateName should check that', () => {
     test("only the first letter is capitalized", () => {
         expect(validateName("H. G. WELLS")).toBe(false);
         expect(validateName("HERBERT G. We11s")).toBe(false);
+        expect(validateName("H. G. Wells")).toBe(true);
     })
 
     test("initials end with a dot", () => {
         expect(validateName("H Wells")).toBe(false);
         expect(validateName("H. G Wells")).toBe(false);
         expect(validateName("Herbert G Wells")).toBe(false);
+        expect(validateName("H. G. Wells")).toBe(true);
     });
 
     test("only initials are followed by a dot", () => {
         expect(validateName("Herbert Geo. Wells")).toBe(false);
         expect(validateName("Herb. G. Wells")).toBe(false);
+        expect(validateName("H. G. Wells")).toBe(true);
     });
 
     test("a name is either 2 or 3 terms long", () => {
@@ -198,38 +201,45 @@ describe('validateName should check that', () => {
         expect(validateName("H.")).toBe(false);
         expect(validateName("Herbert")).toBe(false);
         expect(validateName("Herbert George Meredith Wells")).toBe(false);
+        expect(validateName("H. G. Wells")).toBe(true);
     });
 
     test("first initial does not have second name in full", () => {
         expect(validateName("H. George Wells")).toBe(false);
+        expect(validateName("H. G. Wells")).toBe(true);
     })
 
     test("last name is not on initial", () => {
         expect(validateName("H. G. W.")).toBe(false);
         expect(validateName("Herbert George W.")).toBe(false);
+        expect(validateName("H. G. Wells")).toBe(true);
     })
 
     test("only letters, spaces and dots are present", () => {
         expect(validateName("4. G. Wells")).toBe(false);
         expect(validateName("Herbert George We11s")).toBe(false);
         expect(validateName("Herbert-George We11s")).toBe(false);
+        expect(validateName("H. G. Wells")).toBe(true);
     })
 
     test("dots do not appear in the middle of words", () => {
         expect(validateName("H.G. Wells")).toBe(false);
         expect(validateName("H.. G. Wells")).toBe(false);
         expect(validateName("Herbert.George We11s")).toBe(false);
+        expect(validateName("H. G. Wells")).toBe(true);
     })
 
     test("names with only two letters are allowed", () => {
         expect(validateName("Li Bo")).toBe(true);
         expect(validateName("Tony Pi")).toBe(true);
         expect(validateName("U Thant")).toBe(false);
+        expect(validateName("H. G. Wells")).toBe(true);
     })
 
     test("words don't start with a dot", () => {
         expect(validateName(".h G. Wells")).toBe(false);
         expect(validateName("Herbert .g. Wells")).toBe(false);
         expect(validateName("Herbert G .Wells")).toBe(false);
+        expect(validateName("H. G. Wells")).toBe(true);
     })
 })
