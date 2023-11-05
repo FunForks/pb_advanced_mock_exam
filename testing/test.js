@@ -1,20 +1,31 @@
-const { activities, createNestedArrayFromObject, scrambleWords, convertNestedArrayToObject, makeGameGrid, generateAverages, StaffMember, validateName } = require("../index");
+const { activities, createNestedArrayFromObject, scrambleWords, convertNestedArrayToObject, makeGameGrid, generateAverages, StaffMember, validateName } = require("../index.js");
 
-describe('After-school Activities object', () => {
-    const propsToCheck = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    const values = ['Swimming', 'Book Club', 'Gymnastics', 'Babysitting', 'Debating Society'];
-    propsToCheck.forEach(prop => {
-        test(`has ${prop} property`, () => {
-            expect(activities).toHaveProperty(prop);
-        });
+describe('After-school Activities object should', () => {
+    test('be an object', () => {
+        expect(activities).toBeInstanceOf(Object)
     });
-    propsToCheck.forEach((prop, index) => {
-        const expected = values[index]
-        const actual = activities[prop]
-        test(`${prop} property has value ${expected}`, () => {
-            expect(expected).toBe(actual);
+
+    if ( activities !== null  && typeof activities === "object") {
+        // Check properties and values individually
+
+        const propsToCheck = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+        propsToCheck.forEach(prop => {
+            test(`has ${prop} property`, () => {
+                expect(activities).toHaveProperty(prop);
+            });
         });
-    });
+
+        const values = ['Swimming', 'Book Club', 'Gymnastics', 'Babysitting', 'Debating Society'];
+        
+        propsToCheck.forEach((prop, index) => {
+            const expected = values[index]
+            const actual = activities[prop]
+            test(`${prop} property has value ${expected}`, () => {
+                expect(expected).toBe(actual);
+            });
+        });
+    }
 });
 
 describe('createNestedArrayFromObject should', () => {
@@ -44,7 +55,8 @@ describe('scrambleWords should', () => {
     input| expected 
     ${"Adnama syas tnahk you for yuor hlep!"} | ${"Amanda says thank you for your help!"}
     ${"Legnor wdros are plbabory hedrar to raed."} | ${"Longer words are probably harder to read."}
-    `('reverse all words in $input and restore first and last letters to be $expected', ({ input, expected }) => {
+    ${"trehe may not be a poitautcnun mrak at the end"} | ${"there may not be a punctuation mark at the end"}
+    `('produce the string "$expected" from the scrambled input', ({ input, expected }) => {
         expect(scrambleWords(input)).toBe(expected);
     });
 });
@@ -99,25 +111,36 @@ describe('makeGameGrid should', () => {
 });
 
 describe('generateAverages should', () => {
-    test.each`
-    input| expected 
-    ${{
-        "Day 1": [12, 14, 52, 37, 5],
-        "Day 2": [15, 17, 50, 40, 35, 11],
-        "Day 3": [10, 24, 42, 17]
-      }} | ${{
-        "Day 1":   24,
-        "Day 2":   28,
-        "Day 3":   23.25,
-        Overall: 25.4
-      }}
-    `('calculate average of each day, and also overall average in the given object to $expected', ({ input, expected }) => {
-            expect(generateAverages(input)).toStrictEqual(expected);
+    test('be a function', () => {
+        expect(generateAverages).toBeInstanceOf(Function)
+    });
+
+    if (typeof generateAverages === "function") {
+        const input = {
+            "Day 1": [12, 14, 52, 37, 5],
+            "Day 2": [15, 17, 50, 40, 35, 11],
+            "Day 3": [10, 24, 42, 17]
+        }
+        const output = generateAverages(input)
+
+        test('calculate the average of each day', () => {
+            expect(output).toMatchObject({
+                "Day 1": 24,
+                "Day 2": 28,
+                "Day 3": 23.25
+            })
         });
+
+        test('calculate the overall average', () => {
+            expect(output).toMatchObject({
+                Overall: 25.4
+            })
+        });
+    }
 });
 
-//class - method presentValue
 describe('StaffMember class should', () => {
+    // method presentValue
     test.each`
     first_name|family_name|partner_name|number_of_children|expected
     ${"Bruce"} | ${"Willis"} | ${"Emma"} | ${5} | ${57}  
@@ -128,10 +151,8 @@ describe('StaffMember class should', () => {
     `('return the value: $expected', ({ first_name, family_name, partner_name, number_of_children, expected }) => {
         expect(new StaffMember(first_name, family_name, partner_name, number_of_children).presentValue()).toStrictEqual(expected);
     });
-});
 
-// class - method getMessage
-describe('StaffMember class should', () => {
+    // method getMessage
     test.each`
     first_name | family_name | partner_name | number_of_children | expected
     ${"Bruce"} | ${"Willis"} | ${"Emma"} | ${5} | ${"Please buy a present for Bruce Willis. Bruce has a partner called Emma, and 5 children. Pyramid Sales will reimburse your purchase up to a maximum value of €57."} 
@@ -139,63 +160,76 @@ describe('StaffMember class should', () => {
     ${"Leonardo"} | ${"DiCaprio"} | ${"Camila"} | ${0} | ${"Please buy a present for Leonardo DiCaprio. Leonardo has a partner called Camila. Pyramid Sales will reimburse your purchase up to a maximum value of €32."} 
     ${"Diane"} | ${"Keaton"} | ${""} | ${2} | ${"Please buy a present for Diane Keaton. Diane has 2 children. Pyramid Sales will reimburse your purchase up to a maximum value of €35."} 
     ${"Emma"} | ${"Watson"} | ${""} | ${0} | ${"Please buy a present for Emma Watson. Pyramid Sales will reimburse your purchase up to a maximum value of €25."} 
-    `('return the description: $expected', ({ first_name, family_name, partner_name, number_of_children, expected }) => {
+    `('return the correct description for $first_name $family_name', ({ first_name, family_name, partner_name, number_of_children, expected }) => {
         expect(new StaffMember(first_name, family_name, partner_name, number_of_children).getMessage()).toStrictEqual(expected);
     });
 });
 
-/* Validate name check */
-test("both initials and words must be capitalized", () => {
-    expect(validateName("H. Wells")).toBe(true);
-    expect(validateName("H. G. Wells")).toBe(true);
-    expect(validateName("Herbert G. Wells")).toBe(true);
-    expect(validateName("Herbert George Wells")).toBe(true);
-    expect(validateName("h. Wells")).toBe(false);
-    expect(validateName("H. G. wells")).toBe(false);
-    expect(validateName("herbert G. Wells")).toBe(false);
-    expect(validateName("Herbert george Wells")).toBe(false);
-});
+describe('validateName should check that', () => {
+    test("both initials and words must be capitalized", () => {
+        expect(validateName("H. Wells")).toBe(true);
+        expect(validateName("H. G. Wells")).toBe(true);
+        expect(validateName("Herbert G. Wells")).toBe(true);
+        expect(validateName("Herbert George Wells")).toBe(true);
+        expect(validateName("h. Wells")).toBe(false);
+        expect(validateName("H. G. wells")).toBe(false);
+        expect(validateName("herbert G. Wells")).toBe(false);
+        expect(validateName("Herbert george Wells")).toBe(false);
+    });
 
-test("only first letter should be capitalized", () => {
-    expect(validateName("H. G. WELLS")).toBe(false);
-    expect(validateName("HERBERT G. We11s")).toBe(false);
-})
+    test("only first letter should be capitalized", () => {
+        expect(validateName("H. G. WELLS")).toBe(false);
+        expect(validateName("HERBERT G. We11s")).toBe(false);
+    })
 
-test("initials must end with a dot", () => {
-    expect(validateName("H Wells")).toBe(false);
-    expect(validateName("H. G Wells")).toBe(false);
-    expect(validateName("Herbert G Wells")).toBe(false);
-});
+    test("initials must end with a dot", () => {
+        expect(validateName("H Wells")).toBe(false);
+        expect(validateName("H. G Wells")).toBe(false);
+        expect(validateName("Herbert G Wells")).toBe(false);
+    });
 
-test("only initials can be followed by a dot", () => {
-    expect(validateName("Herbert Geo. Wells")).toBe(false);
-    expect(validateName("Herb. G. Wells")).toBe(false);
-});
+    test("only initials can be followed by a dot", () => {
+        expect(validateName("Herbert Geo. Wells")).toBe(false);
+        expect(validateName("Herb. G. Wells")).toBe(false);
+    });
 
-test("a name must be either 2 or 3 terms long", () => {
-    expect(validateName("Wells")).toBe(false);
-    expect(validateName("H.")).toBe(false);
-    expect(validateName("Herbert")).toBe(false);
-    expect(validateName("Herbert George Meredith Wells")).toBe(false);
-});
+    test("a name must be either 2 or 3 terms long", () => {
+        expect(validateName("Wells")).toBe(false);
+        expect(validateName("H.")).toBe(false);
+        expect(validateName("Herbert")).toBe(false);
+        expect(validateName("Herbert George Meredith Wells")).toBe(false);
+    });
 
-test("first initial cannot have second name in full", () => {
-    expect(validateName("H. George Wells")).toBe(false);
-})
+    test("first initial cannot have second name in full", () => {
+        expect(validateName("H. George Wells")).toBe(false);
+    })
 
-test("last name cannot be initial", () => {
-    expect(validateName("H. G. W.")).toBe(false);
-    expect(validateName("Herbert George W.")).toBe(false);
-})
+    test("last name cannot be initial", () => {
+        expect(validateName("H. G. W.")).toBe(false);
+        expect(validateName("Herbert George W.")).toBe(false);
+    })
 
-test("only letters, spaces and dots allowed", () => {
-    expect(validateName("4. G. Wells")).toBe(false);
-    expect(validateName("Herbert George We11s")).toBe(false);
-    expect(validateName("Herbert-George We11s")).toBe(false);
-})
+    test("only letters, spaces and dots allowed", () => {
+        expect(validateName("4. G. Wells")).toBe(false);
+        expect(validateName("Herbert George We11s")).toBe(false);
+        expect(validateName("Herbert-George We11s")).toBe(false);
+    })
 
-test("dots are not allowed in the middle of words", () => {
-    expect(validateName("H.G. Wells")).toBe(false);
-    expect(validateName("H.. G. Wells")).toBe(false);
-    expect(validateName("Herbert.George We11s")).toBe(false);
+    test("dots are not allowed in the middle of words", () => {
+        expect(validateName("H.G. Wells")).toBe(false);
+        expect(validateName("H.. G. Wells")).toBe(false);
+        expect(validateName("Herbert.George We11s")).toBe(false);
+    })
+
+    test("names with only two letters are allowed", () => {
+        expect(validateName("Li Bo")).toBe(true);
+        expect(validateName("Tony Pi")).toBe(true);
+        expect(validateName("U Thant")).toBe(false);
+    })
+
+    test("words can't start with a dot", () => {
+        expect(validateName(".h G. Wells")).toBe(false);
+        expect(validateName("Herbert .g. Wells")).toBe(false);
+        expect(validateName("Herbert G .Wells")).toBe(false);
+    })
 })
