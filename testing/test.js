@@ -11,7 +11,7 @@ describe('After-school Activities object should', () => {
         const propsToCheck = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
         propsToCheck.forEach(prop => {
-            test(`has ${prop} property`, () => {
+            test(`have a ${prop} property`, () => {
                 expect(activities).toHaveProperty(prop);
             });
         });
@@ -21,7 +21,7 @@ describe('After-school Activities object should', () => {
         propsToCheck.forEach((prop, index) => {
             const expected = values[index]
             const actual = activities[prop]
-            test(`${prop} property has value ${expected}`, () => {
+            test(`have a ${prop} property with the value ${expected}`, () => {
                 expect(expected).toBe(actual);
             });
         });
@@ -148,7 +148,7 @@ describe('StaffMember class should', () => {
     ${"Leonardo"} | ${"DiCaprio"} | ${"Camila"} | ${0} | ${32} 
     ${"Diane"} | ${"Keaton"} | ${""} | ${2} | ${35}
     ${"Emma"} | ${"Watson"} | ${""} | ${0} | ${25}
-    `('return the value: $expected', ({ first_name, family_name, partner_name, number_of_children, expected }) => {
+    `('return the value $expected for $first_name $family_name', ({ first_name, family_name, partner_name, number_of_children, expected }) => {
         expect(new StaffMember(first_name, family_name, partner_name, number_of_children).presentValue()).toStrictEqual(expected);
     });
 
@@ -166,7 +166,7 @@ describe('StaffMember class should', () => {
 });
 
 describe('validateName should check that', () => {
-    test("both initials and words must be capitalized", () => {
+    test("both initials and words are capitalized", () => {
         expect(validateName("H. Wells")).toBe(true);
         expect(validateName("H. G. Wells")).toBe(true);
         expect(validateName("Herbert G. Wells")).toBe(true);
@@ -177,45 +177,45 @@ describe('validateName should check that', () => {
         expect(validateName("Herbert george Wells")).toBe(false);
     });
 
-    test("only first letter should be capitalized", () => {
+    test("only the first letter is capitalized", () => {
         expect(validateName("H. G. WELLS")).toBe(false);
         expect(validateName("HERBERT G. We11s")).toBe(false);
     })
 
-    test("initials must end with a dot", () => {
+    test("initials end with a dot", () => {
         expect(validateName("H Wells")).toBe(false);
         expect(validateName("H. G Wells")).toBe(false);
         expect(validateName("Herbert G Wells")).toBe(false);
     });
 
-    test("only initials can be followed by a dot", () => {
+    test("only initials are followed by a dot", () => {
         expect(validateName("Herbert Geo. Wells")).toBe(false);
         expect(validateName("Herb. G. Wells")).toBe(false);
     });
 
-    test("a name must be either 2 or 3 terms long", () => {
+    test("a name is either 2 or 3 terms long", () => {
         expect(validateName("Wells")).toBe(false);
         expect(validateName("H.")).toBe(false);
         expect(validateName("Herbert")).toBe(false);
         expect(validateName("Herbert George Meredith Wells")).toBe(false);
     });
 
-    test("first initial cannot have second name in full", () => {
+    test("first initial does not have second name in full", () => {
         expect(validateName("H. George Wells")).toBe(false);
     })
 
-    test("last name cannot be initial", () => {
+    test("last name is not on initial", () => {
         expect(validateName("H. G. W.")).toBe(false);
         expect(validateName("Herbert George W.")).toBe(false);
     })
 
-    test("only letters, spaces and dots allowed", () => {
+    test("only letters, spaces and dots are present", () => {
         expect(validateName("4. G. Wells")).toBe(false);
         expect(validateName("Herbert George We11s")).toBe(false);
         expect(validateName("Herbert-George We11s")).toBe(false);
     })
 
-    test("dots are not allowed in the middle of words", () => {
+    test("dots do not appear in the middle of words", () => {
         expect(validateName("H.G. Wells")).toBe(false);
         expect(validateName("H.. G. Wells")).toBe(false);
         expect(validateName("Herbert.George We11s")).toBe(false);
@@ -227,7 +227,7 @@ describe('validateName should check that', () => {
         expect(validateName("U Thant")).toBe(false);
     })
 
-    test("words can't start with a dot", () => {
+    test("words don't start with a dot", () => {
         expect(validateName(".h G. Wells")).toBe(false);
         expect(validateName("Herbert .g. Wells")).toBe(false);
         expect(validateName("Herbert G .Wells")).toBe(false);
